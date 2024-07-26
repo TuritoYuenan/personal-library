@@ -17,12 +17,12 @@ public sealed class Settings
 	/// </summary>
 	private static readonly object _lock = new();
 
-	public bool DarkMode { get; set; }
+	public InterfaceStyle Appearance { get; set; }
 	public string SavePath { get; set; }
 
 	private Settings()
 	{
-		DarkMode = false;
+		Appearance = InterfaceStyle.FlatDarkStyle;
 		SavePath = "data.json";
 	}
 
@@ -46,7 +46,7 @@ public sealed class Settings
 	public Json ToJson()
 	{
 		Json json = new();
-		json.AddBool("darkMode", DarkMode);
+		json.AddNumber("appearance", (int)Appearance);
 		json.AddString("savePath", SavePath);
 		return json;
 	}
@@ -57,7 +57,7 @@ public sealed class Settings
 	/// <param name="json">SplashKit JSON object</param>
 	public void FromJson(Json json)
 	{
-		DarkMode = json.ReadBool("darkMode");
+		Appearance = (InterfaceStyle)json.ReadInteger("appearance");
 		SavePath = json.ReadString("savePath");
 	}
 }

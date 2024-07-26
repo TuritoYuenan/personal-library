@@ -20,20 +20,30 @@ public class SettingsPage : IPage
 
 	public void Render()
 	{
-		string mode = _settings.DarkMode switch
+		string appearance = _settings.Appearance switch
 		{
-			true => "Dark mode",
-			false => "Light mode",
+			InterfaceStyle.FlatDarkStyle => "Dark & Flat",
+			InterfaceStyle.ShadedDarkStyle => "Dark & Shaded",
+			InterfaceStyle.FlatLightStyle => "Light & Flat",
+			InterfaceStyle.ShadedLightStyle => "Light & Shaded",
+			InterfaceStyle.Bubble => "Bubbly",
+			InterfaceStyle.BubbleMulticolored => "Bubbly & Colorful",
+			_ => "Unknown"
 		};
 
 		SplashKit.SetInterfaceFontSize(20);
-		SplashKit.StartInset("s1", new Rectangle() { X = 30, Y = 140, Width = 1210, Height = 720 - 180 });
+		SplashKit.StartInset("s1", new Rectangle() { X = 20, Y = 110, Width = 620, Height = 580 });
 
-		SplashKit.StartCustomLayout();
-		SplashKit.SplitIntoColumns(2);
-		_settings.DarkMode = SplashKit.Checkbox("Appearance", mode, _settings.DarkMode);
+		_settings.Appearance = (InterfaceStyle)SplashKit.Slider(appearance, (float)_settings.Appearance, 0, 5);
 		_settings.SavePath = SplashKit.TextBox("Save Location", _settings.SavePath);
 
+		// Update SplashKit interface style
+		SplashKit.SetInterfaceStyle(_settings.Appearance);
+
 		SplashKit.EndInset("s1");
+
+		SplashKit.StartInset("s2", new Rectangle() { X = 660, Y = 110, Width = 590, Height = 580 });
+
+		SplashKit.EndInset("s2");
 	}
 }

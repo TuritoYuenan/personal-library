@@ -8,7 +8,6 @@ Program <.. Shelf
 Program <.. Settings
 Program <.. UserInterface
 
-
 Shelf o-- Material
 Shelf <.. CreateMaterial
 Material <|-- Book
@@ -22,7 +21,6 @@ Webpage ..|> IOnline: implements
 Video ..|> IOnline: implements
 MaterialPage <.. IOnline
 
-UserInterface <.. CreateButton
 UserInterface o-- IPage
 IPage <|.. MaterialPage: implements
 IPage <|.. ShelfPage: implements
@@ -83,9 +81,9 @@ class Material {
 	+ GetID()*
 }
 class Book {
-	+ Publisher: string ~~property~~
-	+ Edition: string ~~property~~
 	+ ISBN: string ~~property~~
+	+ Edition: string ~~property~~
+	+ Publisher: string ~~property~~
 	+ ID: string ~~RO property~~
 	+ Book(...)
 	+ Book(Json)
@@ -102,8 +100,8 @@ class Article {
 	+ ToJson() Json
 }
 class Webpage {
-	+ Link: Uri ~~property~~
 	+ Website: string ~~property~~
+	+ Link: Uri ~~property~~
 	+ ID: string ~~RO property~~
 	+ Webpage(...)
 	+ Webpage(Json)
@@ -111,7 +109,7 @@ class Webpage {
 }
 class Video {
 	+ Platform: string ~~property~~
-	+ Url: Uri ~~property~~
+	+ Link: Uri ~~property~~
 	+ ID: string ~~RO property~~
 	+ Video(...)
 	+ Video(Json)
@@ -127,11 +125,6 @@ class ANumbers {
 
 %% Views
 
-class CreateButton {
-	<<Factory>>
-	+ Icon(int, int, string) bool
-	+ ViewOnline(int, int) bool
-}
 class UserInterface {
 	<<Singleton>>
 	- _instance: UserInterface$
@@ -146,14 +139,15 @@ class UserInterface {
 	+ GoInto(IPage)
 	+ GoBack() IPage
 	+ Render()
-	- TopBar()
+	- IconButton(int, int, string)$ bool
 }
 class MaterialPage {
 	- material: Material
 	+ Title: string ~~RO property~~
 	+ MaterialPage(Material)
 	+ Render()
-	+ ViewOnline(Uri)
+	- ViewOnlineButton(int, int)$ bool
+	- ViewOnline(Uri) Process?$
 }
 class SettingsPage {
 	- settings: Settings
