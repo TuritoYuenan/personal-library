@@ -1,6 +1,5 @@
 ﻿using PersonalLibrary.Interfaces;
 using PersonalLibrary.Models;
-using PersonalLibrary.Models.Factories;
 using SplashKitSDK;
 using System.Diagnostics;
 

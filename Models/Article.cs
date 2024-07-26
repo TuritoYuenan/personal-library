@@ -1,4 +1,4 @@
-﻿using ANumbers = (int Volume, int Issue, int PageS, int PageE);
+﻿using ANumbers = (int Volume, int Issue, int Start, int End);
 using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
@@ -63,8 +63,8 @@ public class Article : Material, IOnline
 		json.AddString("journal", Publisher);
 		json.AddNumber("volume", Numbers.Volume);
 		json.AddNumber("issue", Numbers.Issue);
-		json.AddNumber("page1", Numbers.PageS);
-		json.AddNumber("page2", Numbers.PageE);
+		json.AddNumber("page1", Numbers.Start);
+		json.AddNumber("page2", Numbers.End);
 
 		return json;
 	}

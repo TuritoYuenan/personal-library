@@ -3,10 +3,20 @@ using SplashKitSDK;
 
 namespace PersonalLibrary.Models;
 
+/// <summary>
+/// Represent a webpage (blog, online news, someone's profile, etc)
+/// </summary>
 public class Webpage : Material, IOnline
 {
+	/// <summary>
+	/// Name of the website
+	/// </summary>
+	public string Website { get; set; }
+
+	/// <summary>
+	/// URL to where the webpage can be accessed
+	/// </summary>
 	public Uri Link { get; set; }
-	public string WebsiteName { get; set; }
 
 	public override string Id => Link.AbsoluteUri;
 
@@ -17,13 +27,13 @@ public class Webpage : Material, IOnline
 	)
 		: base(authors, title, date)
 	{
-		WebsiteName = websiteName;
+		Website = websiteName;
 		Link = new(url);
 	}
 
 	public Webpage(Json json) : base(json)
 	{
-		WebsiteName = json.ReadString("website");
+		Website = json.ReadString("website");
 		Link = new(json.ReadString("url"));
 	}
 
@@ -31,7 +41,7 @@ public class Webpage : Material, IOnline
 	{
 		Json json = base.ToJson();
 		json.AddString("type", "webpage");
-		json.AddString("website", WebsiteName);
+		json.AddString("website", Website);
 		json.AddString("url", Link.AbsoluteUri);
 
 		return json;

@@ -4,8 +4,19 @@ namespace PersonalLibrary.Models;
 
 public abstract class Material
 {
+	/// <summary>
+	/// List of authors
+	/// </summary>
 	public List<string> Authors { get; set; }
+
+	/// <summary>
+	/// Title of the material item
+	/// </summary>
 	public string Title { get; set; }
+
+	/// <summary>
+	/// Publication/Upload date
+	/// </summary>
 	public DateOnly Date { get; set; }
 
 	/// <summary>
@@ -14,6 +25,12 @@ public abstract class Material
 	/// <returns>ID string. This can be ISBN, DOI, or URL</returns>
 	public abstract string Id { get; }
 
+	/// <summary>
+	/// Constructs a material item with authors, a title and a date
+	/// </summary>
+	/// <param name="authors"></param>
+	/// <param name="title"></param>
+	/// <param name="date"></param>
 	protected Material(List<string> authors, string title, DateOnly date)
 	{
 		Authors = authors;
@@ -22,7 +39,7 @@ public abstract class Material
 	}
 
 	/// <summary>
-	/// Constructs a Material object from a JSON object
+	/// Constructs a material item from a JSON object
 	/// </summary>
 	/// <param name="json">SplashKit JSON object</param>
 	protected Material(Json json)
@@ -36,7 +53,7 @@ public abstract class Material
 	}
 
 	/// <summary>
-	/// Converts a Material object to a JSON object
+	/// Converts a material item to a JSON object
 	/// </summary>
 	/// <returns>SplashKit JSON object</returns>
 	public virtual Json ToJson()

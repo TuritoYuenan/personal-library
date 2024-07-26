@@ -3,9 +3,19 @@ using SplashKitSDK;
 
 namespace PersonalLibrary.Models;
 
+/// <summary>
+/// Represents an online video (e.g. on YouTube/Vimeo/DailyMotion)
+/// </summary>
 public class Video : Material, IOnline
 {
+	/// <summary>
+	/// Platform/Website where the video is uploaded
+	/// </summary>
 	public string Platform { get; set; }
+
+	/// <summary>
+	/// URL to where the video can be accessed
+	/// </summary>
 	public Uri Link { get; set; }
 
 	public override string Id => Link.AbsoluteUri;

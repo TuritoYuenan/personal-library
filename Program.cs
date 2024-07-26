@@ -1,7 +1,6 @@
 using SplashKitSDK;
 using PersonalLibrary.Models;
 using PersonalLibrary.Views;
-using PersonalLibrary.Models.Factories;
 
 namespace PersonalLibrary;
 
@@ -12,9 +11,9 @@ internal class Program
 {
 	public static void Main()
 	{
+		Shelf shelf = new();
 		Settings settings = Settings.GetInstance();
 		UserInterface ui = UserInterface.GetInstance();
-		Shelf shelf = new();
 
 		// Set the first page as shelf page
 		ui.GoInto(new ShelfPage(shelf));
@@ -86,7 +85,7 @@ internal class Program
 		// Load settings
 		settings.FromJson(json.ReadObject("settings"));
 
-		// Load saved contents
+		// Load contents from save file
 		List<Json> contents = [];
 		json.ReadArray("contents", ref contents);
 

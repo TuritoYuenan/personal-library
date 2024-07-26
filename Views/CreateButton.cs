@@ -1,6 +1,6 @@
 ﻿using SplashKitSDK;
 
-namespace PersonalLibrary.Models.Factories;
+namespace PersonalLibrary.Views;
 
 public static class CreateButton
 {

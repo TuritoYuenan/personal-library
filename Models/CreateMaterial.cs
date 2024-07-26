@@ -1,6 +1,6 @@
 ﻿using SplashKitSDK;
 
-namespace PersonalLibrary.Models.Factories;
+namespace PersonalLibrary.Models;
 
 public static class CreateMaterial
 {
@@ -13,8 +13,7 @@ public static class CreateMaterial
 	public static Material FromJson(Json json)
 	{
 		string type = json.ReadString("type");
-
-		Material material = type switch
+		return type switch
 		{
 			"book" => new Book(json),
 			"article" => new Article(json),
@@ -22,11 +21,9 @@ public static class CreateMaterial
 			"video" => new Video(json),
 			_ => throw new InvalidDataException("Unknown type: " + type)
 		};
-
-		return material;
 	}
 
-	public static Material Test()
+	public static Material TestMaterial()
 	{
 		return new Webpage(["Tester"], "Example page", DateOnly.MaxValue, "Example", "https://example.com");
 	}
