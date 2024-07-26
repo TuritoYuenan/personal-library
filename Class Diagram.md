@@ -4,26 +4,29 @@
 classDiagram
 direction TB
 
-Program *-- Shelf
-Program *-- Settings
-Program *-- UserInterface
+Program <.. Shelf
+Program <.. Settings
+Program <.. UserInterface
+
 
 Shelf o-- Material
+Shelf <.. CreateMaterial
 Material <|-- Book
 Material <|-- Article
 Material <|-- Video
 Material <|-- Webpage
-Article *-- ANumbers
 
-Article ..|> IAvailableOnline: implements
-Webpage ..|> IAvailableOnline: implements
-Video ..|> IAvailableOnline: implements
+Article *-- ANumbers
+Article ..|> IOnline: implements
+Webpage ..|> IOnline: implements
+Video ..|> IOnline: implements
+MaterialPage <.. IOnline
 
 UserInterface <.. CreateButton
 UserInterface o-- IPage
 IPage <|.. MaterialPage: implements
-IPage <|.. SettingsPage: implements
 IPage <|.. ShelfPage: implements
+IPage <|.. SettingsPage: implements
 
 class Program {
 	+ Main()$
@@ -33,7 +36,7 @@ class Program {
 
 %% Interfaces
 
-class IAvailableOnline {
+class IOnline {
 	<<Interface>>
 	+ OpenLink()
 }
@@ -45,6 +48,11 @@ class IPage {
 
 %% Models
 
+class CreateMaterial {
+	<<Factory>>
+	+ FromJson(Json)$ Material
+	+ TestMaterial()$ Material
+}
 class Settings {
 	<<Singleton>>
 	- _instance: Settings$
@@ -78,50 +86,51 @@ class Book {
 	+ Publisher: string ~~property~~
 	+ Edition: string ~~property~~
 	+ ISBN: string ~~property~~
+	+ ID: string ~~RO property~~
 	+ Book(...)
 	+ Book(Json)
-	+ GetID()
+	+ ToJson() Json
 }
 class Article {
-	- _pages: Tuple~int, int~
+	+ DOI: string ~~property~~
 	+ Publisher: string ~~property~~
 	+ Numbers: int ~~property~~
-	+ DOI: string ~~property~~
+	+ Link: Uri ~~RO property~~
+	+ ID: string ~~RO property~~
 	+ Article(...)
 	+ Article(Json)
-	+ GetID()
-	+ OpenLink()
+	+ ToJson() Json
 }
 class Webpage {
+	+ Link: Uri ~~property~~
 	+ Website: string ~~property~~
-	+ Url: Uri ~~property~~
+	+ ID: string ~~RO property~~
 	+ Webpage(...)
 	+ Webpage(Json)
-	+ GetID()
-	+ OpenLink()
+	+ ToJson() Json
 }
 class Video {
 	+ Platform: string ~~property~~
 	+ Url: Uri ~~property~~
+	+ ID: string ~~RO property~~
 	+ Video(...)
 	+ Video(Json)
-	+ GetID()
-	+ OpenLink()
+	+ ToJson() Json
 }
 class ANumbers {
 	<<Tuple type>>
 	int Volume
 	int Issue
-	int PageS
-	int PageE
+	int Start
+	int End
 }
 
 %% Views
 
 class CreateButton {
 	<<Factory>>
-	+ ViewOnlineButton(int, int) bool
-	+ TopBarButton(int, int, string) bool
+	+ Icon(int, int, string) bool
+	+ ViewOnline(int, int) bool
 }
 class UserInterface {
 	<<Singleton>>
