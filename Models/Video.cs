@@ -1,4 +1,4 @@
-﻿using PersonalLibrary.Interfaces;
+using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
 namespace PersonalLibrary.Models;
@@ -6,7 +6,7 @@ namespace PersonalLibrary.Models;
 /// <summary>
 /// Represents an online video (e.g. on YouTube/Vimeo/DailyMotion)
 /// </summary>
-public class Video : Material, IOnline
+public class YouTubeVideo : Material, IOnline
 {
 	/// <summary>
 	/// Platform/Website where the video is uploaded
@@ -20,7 +20,7 @@ public class Video : Material, IOnline
 
 	public override string Id => Link.AbsoluteUri;
 
-	public Video
+	public YouTubeVideo
 	(
 		List<string> authors, string title, DateOnly date,
 		string platform, string url
@@ -31,7 +31,7 @@ public class Video : Material, IOnline
 		Link = new(url);
 	}
 
-	public Video(Json json) : base(json)
+	public YouTubeVideo(Json json) : base(json)
 	{
 		Platform = json.ReadString("platform");
 		Link = new(json.ReadString("url"));

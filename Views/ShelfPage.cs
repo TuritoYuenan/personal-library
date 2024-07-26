@@ -27,13 +27,14 @@ public class ShelfPage : IPage
 		ShelfRack(32, 255);
 		ShelfRack(32, 565);
 
-		// Display materials
+		// Display materials on upper rack
 		List<Material> rack1 = _shelf.GetRack(0);
 		for (int i = 0; i < rack1.Count; i++)
 		{
 			MaterialCard(96 + 180 * i, 130, rack1[i]);
 		}
 
+		// Display materials on lower rack
 		List<Material> rack2 = _shelf.GetRack(1);
 		for (int i = 0; i < rack2.Count; i++)
 		{
@@ -74,7 +75,7 @@ public class ShelfPage : IPage
 
 		SplashKit.SetInterfaceFontSize(18);
 		SplashKit.Paragraph(
-			data.Title[..Math.Min(data.Title.Length, 30)],
+			data.Title.Truncate(30),
 			new() { X = x + 5, Y = y + 220, Height = 30, Width = 165 }
 		);
 

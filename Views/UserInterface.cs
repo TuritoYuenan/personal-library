@@ -1,4 +1,4 @@
-﻿using PersonalLibrary.Interfaces;
+using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
 namespace PersonalLibrary.Views;
@@ -85,15 +85,29 @@ public sealed class UserInterface
 	{
 		CurrentPage.Render();
 
-		string title = CurrentPage.Title;
 		SplashKit.SetInterfaceFontSize(50);
-		SplashKit.Label(title, new() { X = 220, Y = 34, Height = 70, Width = 500 });
+		SplashKit.Label(CurrentPage.Title, new() { X = 200, Y = 20, Height = 70, Width = 800 });
 
-		Buttons["add"] = CreateButton.Icon(30, 30, "add");
-		Buttons["settings"] = CreateButton.Icon(130, 30, "settings");
+		Buttons["add"] = IconButton(20, 20, "add");
+		Buttons["settings"] = IconButton(110, 20, "settings");
 
 		if (Buttons["settings"]) { GoInto(new SettingsPage()); }
 
 		SplashKit.DrawInterface();
+	}
+
+	/// <summary>
+	/// Renders an icon button
+	/// </summary>
+	/// <param name="x">X position</param>
+	/// <param name="y">Y position</param>
+	/// <param name="icon">Icon name (images/{icon}.png)</param>
+	/// <returns>Whether the button is pressed</returns>
+	private static bool IconButton(int x, int y, string icon)
+	{
+		return SplashKit.BitmapButton(
+			new Bitmap(icon, icon + ".png"),
+			new Rectangle { X = x, Y = y, Width = 70, Height = 70 }
+		);
 	}
 }

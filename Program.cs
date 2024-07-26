@@ -25,11 +25,6 @@ internal class Program
 			SplashKit.ProcessEvents();
 			ui.Window.Clear(Color.White);
 
-			// Temporary: open material
-			if (SplashKit.KeyTyped(KeyCode.Num1Key)) { ui.GoInto(new MaterialPage(shelf[0])); }
-			if (SplashKit.KeyTyped(KeyCode.Num2Key)) { ui.GoInto(new MaterialPage(shelf[1])); }
-			if (SplashKit.KeyTyped(KeyCode.Num3Key)) { ui.GoInto(new MaterialPage(shelf[2])); }
-
 			if (SplashKit.KeyTyped(KeyCode.SKey))
 			{
 				SaveData(shelf, settings);
@@ -48,7 +43,7 @@ internal class Program
 			}
 
 			ui.Render();
-			ui.Window.Refresh();
+			ui.Window.Refresh(20);
 		}
 	}
 

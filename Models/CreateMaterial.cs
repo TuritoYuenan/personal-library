@@ -18,7 +18,7 @@ public static class CreateMaterial
 			"book" => new Book(json),
 			"article" => new Article(json),
 			"webpage" => new Webpage(json),
-			"video" => new Video(json),
+			"video" => new YouTubeVideo(json),
 			_ => throw new InvalidDataException("Unknown type: " + type)
 		};
 	}

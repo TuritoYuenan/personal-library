@@ -1,4 +1,4 @@
-﻿using ANumbers = (int Volume, int Issue, int Start, int End);
+using ANumbers = (int Volume, int Issue, int Start, int End);
 using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
@@ -34,19 +34,19 @@ public class Article : Material, IOnline
 	public Article
 	(
 		List<string> author, string title, DateOnly date,
-		string journal, ANumbers numbers, string doi
+		string publisher, ANumbers numbers, string doi
 	)
 		: base(author, title, date)
 	{
 		Doi = doi;
-		Publisher = journal;
+		Publisher = publisher;
 		Numbers = numbers;
 	}
 
 	public Article(Json json) : base(json)
 	{
 		Doi = json.ReadString("doi");
-		Publisher = json.ReadString("journal");
+		Publisher = json.ReadString("publisher");
 		Numbers = (
 			json.ReadInteger("volume"),
 			json.ReadInteger("issue"),
@@ -60,7 +60,7 @@ public class Article : Material, IOnline
 		Json json = base.ToJson();
 		json.AddString("type", "article");
 		json.AddString("doi", Doi);
-		json.AddString("journal", Publisher);
+		json.AddString("publisher", Publisher);
 		json.AddNumber("volume", Numbers.Volume);
 		json.AddNumber("issue", Numbers.Issue);
 		json.AddNumber("page1", Numbers.Start);
