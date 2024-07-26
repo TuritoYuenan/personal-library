@@ -42,4 +42,14 @@ public class Book : Material
 
 		return json;
 	}
+
+	public override Bitmap GetPicture()
+	{
+		if (_picture == null)
+		{
+			Console.WriteLine($"Downloading cover for {Title}");
+			_picture = SplashKit.DownloadBitmap(Id, $"https://covers.openlibrary.org/b/isbn/{Isbn}-M.jpg", 443);
+		}
+		return _picture;
+	}
 }

@@ -1,4 +1,4 @@
-using ANumbers = (int Volume, int Issue, int Start, int End);
+﻿using ANumbers = (int Volume, int Issue, int Start, int End);
 using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
@@ -67,5 +67,10 @@ public class Article : Material, IOnline
 		json.AddNumber("page2", Numbers.End);
 
 		return json;
+	}
+
+	public override Bitmap GetPicture()
+	{
+		return new("article", "settings.png");
 	}
 }

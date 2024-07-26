@@ -46,4 +46,9 @@ public class Webpage : Material, IOnline
 
 		return json;
 	}
+
+	public override Bitmap GetPicture()
+	{
+		return new("webpage", "settings.png");
+	}
 }

@@ -1,4 +1,4 @@
-using PersonalLibrary.Interfaces;
+﻿using PersonalLibrary.Interfaces;
 using PersonalLibrary.Models;
 using SplashKitSDK;
 using System.Diagnostics;
@@ -32,6 +32,7 @@ public class MaterialPage : IPage
 	{
 		// Cover image
 		SplashKit.FillRectangle(Color.LightGray, 148, 130, 360, 510);
+		SplashKit.DrawBitmap(_material.GetPicture(), 148, 130);
 
 		// Date
 		SplashKit.SetInterfaceFontSize(28);

@@ -4,6 +4,8 @@ namespace PersonalLibrary.Models;
 
 public abstract class Material
 {
+	protected Bitmap? _picture;
+
 	/// <summary>
 	/// List of authors
 	/// </summary>
@@ -64,4 +66,6 @@ public abstract class Material
 		json.AddString("date", Date.ToString());
 		return json;
 	}
+
+	public abstract Bitmap GetPicture();
 }

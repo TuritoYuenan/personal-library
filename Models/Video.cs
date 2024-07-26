@@ -1,4 +1,4 @@
-using PersonalLibrary.Interfaces;
+﻿using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
 namespace PersonalLibrary.Models;
@@ -44,5 +44,16 @@ public class YouTubeVideo : Material, IOnline
 		json.AddString("platform", Platform);
 		json.AddString("url", Link.AbsoluteUri);
 		return json;
+	}
+
+	public override Bitmap GetPicture()
+	{
+		string url = Link.Host.Replace("www.", "") switch
+		{
+			"youtube.com" => $"https://img.youtube.com/vi/{Link.Query.Replace("?watch=", "")}/default.jpg",
+			"youtu.be" => $"https://img.youtube.com/vi/{Link.Segments[1]}/default.jpg",
+			_ => throw new NotSupportedException("Unsupported URL")
+		};
+		return SplashKit.DownloadBitmap(Id, url, 443);
 	}
 }
