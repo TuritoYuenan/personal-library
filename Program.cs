@@ -88,13 +88,7 @@ internal class Program
 		// Load contents from save file
 		List<Json> contents = [];
 		json.ReadArray("contents", ref contents);
-
-		shelf.Clear();
-		foreach (Json item in contents)
-		{
-			Material material = CreateMaterial.FromJson(item);
-			shelf.Add(material);
-		}
+		shelf.FromJsonList(contents);
 
 		Json.FreeAll();
 	}

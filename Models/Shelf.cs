@@ -44,7 +44,7 @@ public class Shelf
 	}
 
 	/// <summary>
-	/// Export items on the shelf to JSON for saving
+	/// Export items from the shelf to JSON
 	/// </summary>
 	/// <returns>List of SplashKit JSON objects</returns>
 	public List<Json> ToJsonList()
@@ -52,5 +52,14 @@ public class Shelf
 		List<Json> saves = [];
 		foreach (Material item in _items) { saves.Add(item.ToJson()); }
 		return saves;
+	}
+
+	/// <summary>
+	/// Import items from JSON to the shelf
+	/// </summary>
+	/// <param name="jsonList"></param>
+	public void FromJsonList(List<Json> jsonList)
+	{
+		foreach (Json item in jsonList) { Add(CreateMaterial.FromJson(item)); }
 	}
 }
