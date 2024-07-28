@@ -32,7 +32,7 @@ public class MaterialPage : IPage
 	{
 		// Cover image
 		SplashKit.FillRectangle(Color.LightGray, 148, 130, 360, 510);
-		SplashKit.DrawBitmap(_material.GetPicture(), 148, 130);
+		SplashKit.DrawBitmap(_material.GetImage(), 148, 130);
 
 		// Date
 		SplashKit.SetInterfaceFontSize(28);

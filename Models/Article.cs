@@ -31,16 +31,11 @@ public class Article : Material, IOnline
 
 	public override string Id => Doi;
 
-	public Article
-	(
-		List<string> author, string title, DateOnly date,
-		string publisher, ANumbers numbers, string doi
-	)
-		: base(author, title, date)
+	public Article() : base()
 	{
-		Doi = doi;
-		Publisher = publisher;
-		Numbers = numbers;
+		Doi = "";
+		Publisher = "";
+		Numbers = (-1, -1, -1, -1);
 	}
 
 	public Article(Json json) : base(json)
@@ -69,7 +64,7 @@ public class Article : Material, IOnline
 		return json;
 	}
 
-	public override Bitmap GetPicture()
+	public override Bitmap GetImage()
 	{
 		return new("article", "settings.png");
 	}

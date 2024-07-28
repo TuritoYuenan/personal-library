@@ -20,15 +20,10 @@ public class YouTubeVideo : Material, IOnline
 
 	public override string Id => Link.AbsoluteUri;
 
-	public YouTubeVideo
-	(
-		List<string> authors, string title, DateOnly date,
-		string platform, string url
-	)
-		: base(authors, title, date)
+	public YouTubeVideo() : base()
 	{
-		Platform = platform;
-		Link = new(url);
+		Platform = "";
+		Link = new("");
 	}
 
 	public YouTubeVideo(Json json) : base(json)
@@ -46,7 +41,7 @@ public class YouTubeVideo : Material, IOnline
 		return json;
 	}
 
-	public override Bitmap GetPicture()
+	public override Bitmap GetImage()
 	{
 		string url = Link.Host.Replace("www.", "") switch
 		{

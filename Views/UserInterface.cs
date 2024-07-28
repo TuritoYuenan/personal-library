@@ -1,10 +1,10 @@
-using PersonalLibrary.Interfaces;
+﻿using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
 namespace PersonalLibrary.Views;
 
 /// <summary>
-/// Represents the program's user interface
+/// Represents the program's user interface (singleton)
 /// </summary>
 public sealed class UserInterface
 {
@@ -91,6 +91,7 @@ public sealed class UserInterface
 		Buttons["add"] = IconButton(20, 20, "add");
 		Buttons["settings"] = IconButton(110, 20, "settings");
 
+		if (Buttons["add"]) { GoInto(new AddPage()); }
 		if (Buttons["settings"]) { GoInto(new SettingsPage()); }
 
 		SplashKit.DrawInterface();

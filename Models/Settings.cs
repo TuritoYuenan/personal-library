@@ -3,7 +3,7 @@
 namespace PersonalLibrary.Models;
 
 /// <summary>
-/// Represents program settings. Is a singleton (only one object created)
+/// Represents program settings (singleton)
 /// </summary>
 public sealed class Settings
 {

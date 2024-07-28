@@ -4,7 +4,7 @@ namespace PersonalLibrary.Models;
 
 public abstract class Material
 {
-	protected Bitmap? _picture;
+	protected Bitmap? _image;
 
 	/// <summary>
 	/// List of authors
@@ -28,16 +28,13 @@ public abstract class Material
 	public abstract string Id { get; }
 
 	/// <summary>
-	/// Constructs a material item with authors, a title and a date
+	/// Default constructor
 	/// </summary>
-	/// <param name="authors"></param>
-	/// <param name="title"></param>
-	/// <param name="date"></param>
-	protected Material(List<string> authors, string title, DateOnly date)
+	protected Material()
 	{
-		Authors = authors;
-		Title = title;
-		Date = date;
+		Authors = [];
+		Title = "";
+		Date = DateOnly.MinValue;
 	}
 
 	/// <summary>
@@ -67,5 +64,5 @@ public abstract class Material
 		return json;
 	}
 
-	public abstract Bitmap GetPicture();
+	public abstract Bitmap GetImage();
 }

@@ -13,16 +13,11 @@ public class Book : Material
 
 	public override string Id => Isbn;
 
-	public Book
-	(
-		List<string> author, string title, DateOnly date,
-		string isbn, string publisher, string edition
-	)
-		: base(author, title, date)
+	public Book() : base()
 	{
-		Isbn = isbn;
-		Edition = edition;
-		Publisher = publisher;
+		Isbn = "";
+		Edition = "";
+		Publisher = "";
 	}
 
 	public Book(Json json) : base(json)
@@ -43,13 +38,13 @@ public class Book : Material
 		return json;
 	}
 
-	public override Bitmap GetPicture()
+	public override Bitmap GetImage()
 	{
-		if (_picture == null)
+		if (_image == null)
 		{
 			Console.WriteLine($"Downloading cover for {Title}");
-			_picture = SplashKit.DownloadBitmap(Id, $"https://covers.openlibrary.org/b/isbn/{Isbn}-M.jpg", 443);
+			_image = SplashKit.DownloadBitmap(Id, $"https://covers.openlibrary.org/b/isbn/{Isbn}-M.jpg", 443);
 		}
-		return _picture;
+		return _image;
 	}
 }

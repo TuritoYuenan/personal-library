@@ -20,15 +20,10 @@ public class Webpage : Material, IOnline
 
 	public override string Id => Link.AbsoluteUri;
 
-	public Webpage
-	(
-		List<string> authors, string title, DateOnly date,
-		string websiteName, string url
-	)
-		: base(authors, title, date)
+	public Webpage() : base()
 	{
-		Website = websiteName;
-		Link = new(url);
+		Website = "";
+		Link = new("");
 	}
 
 	public Webpage(Json json) : base(json)
@@ -47,7 +42,7 @@ public class Webpage : Material, IOnline
 		return json;
 	}
 
-	public override Bitmap GetPicture()
+	public override Bitmap GetImage()
 	{
 		return new("webpage", "settings.png");
 	}
