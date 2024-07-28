@@ -25,6 +25,14 @@ public static class CreateMaterial
 
 	public static Material TestMaterial()
 	{
-		return new Webpage(["Tester"], "Example page", DateOnly.MaxValue, "Example", "https://example.com");
+		return new Book()
+		{
+			Authors = ["Erich Gamma", "Richard Helm", "Ralph Johnson", "John Vlissides"],
+			Title = "Design Patterns: Elements of Reusable Object-Oriented Software",
+			Date = new(1994, 10, 21),
+			Publisher = "Addison-Wesley",
+			Edition = "Original",
+			Isbn = "0-201-63361-2"
+		};
 	}
 }

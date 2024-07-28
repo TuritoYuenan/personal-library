@@ -28,32 +28,30 @@ public class AddPage : IPage
 		SplashKit.SetInterfaceFontSize(20);
 		SplashKit.StartCustomLayout();
 
-		SplashKit.StartInset("type", new Rectangle() { X = 20, Y = 110, Width = 900, Height = 45 });
-		_form["type"] = SplashKit.Slider("Type", (int)_form["type"], 0, 4);
+		SplashKit.StartInset("type", SplashKit.RectangleFrom(20, 110, 900, 45));
+		_form["type"] = (int)SplashKit.Slider("Type", (int)_form["type"], 0, 4);
 		SplashKit.EndInset("type");
 
-		TextField(155, "Author(s)", "authors");
-		TextField(200, "Title", "title");
-		TextField(245, "Publisher", "publisher");
-		TextField(290, "ID", "id");
-
-		SplashKit.StartInset("year", new Rectangle() { X = 20, Y = 335, Width = 300, Height = 45 });
-		_form["year"] = SplashKit.NumberBox("Year", (int)_form["year"], 1);
-		SplashKit.EndInset("year");
-
-		SplashKit.StartInset("month", new Rectangle() { X = 320, Y = 335, Width = 300, Height = 45 });
-		_form["month"] = SplashKit.NumberBox("month", (int)_form["month"], 1);
-		SplashKit.EndInset("month");
-
-		SplashKit.StartInset("day", new Rectangle() { X = 620, Y = 335, Width = 300, Height = 45 });
-		_form["day"] = SplashKit.NumberBox("day", (int)_form["day"], 1);
-		SplashKit.EndInset("day");
+		TextField(20, 155, "Author(s)", "authors");
+		TextField(20, 200, "Title", "title");
+		TextField(20, 245, "Publisher", "publisher");
+		TextField(20, 290, "ID", "id");
+		NumberField(20, 335, "Year", "year");
+		NumberField(320, 335, "Month", "month");
+		NumberField(620, 335, "Day", "day");
 	}
 
-	private void TextField(uint y, string label, string key)
+	private void TextField(int x, int y, string label, string key)
 	{
-		SplashKit.StartInset(key, new Rectangle() { X = 20, Y = y, Width = 900, Height = 45 });
+		SplashKit.StartInset(key, SplashKit.RectangleFrom(x, y, 900, 45));
 		_form[key] = SplashKit.TextBox(label, (string)_form[key]);
+		SplashKit.EndInset(key);
+	}
+
+	private void NumberField(int x, int y, string label, string key)
+	{
+		SplashKit.StartInset(key, SplashKit.RectangleFrom(x, y, 300, 45));
+		_form[key] = (int)SplashKit.NumberBox(label, (int)_form[key], 1);
 		SplashKit.EndInset(key);
 	}
 }

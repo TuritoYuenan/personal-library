@@ -83,32 +83,37 @@ public sealed class UserInterface
 	/// </summary>
 	public void Render()
 	{
+		Window.Clear(Color.WhiteSmoke);
 		CurrentPage.Render();
 
+		SplashKit.StartInset("title", SplashKit.RectangleFrom(200, 0, 1070, 100));
 		SplashKit.SetInterfaceFontSize(50);
-		SplashKit.Label(CurrentPage.Title, new() { X = 200, Y = 20, Height = 70, Width = 800 });
+		SplashKit.Label(CurrentPage.Title, SplashKit.RectangleFrom(10, 10, 800, 70));
+		SplashKit.EndInset("title");
 
-		Buttons["add"] = IconButton(20, 20, "add");
-		Buttons["settings"] = IconButton(110, 20, "settings");
+		Buttons["add"] = IconButton(0, 0, "add");
+		Buttons["settings"] = IconButton(100, 0, "settings");
 
 		if (Buttons["add"]) { GoInto(new AddPage()); }
 		if (Buttons["settings"]) { GoInto(new SettingsPage()); }
 
 		SplashKit.DrawInterface();
+		Window.Refresh(20);
 	}
 
 	/// <summary>
 	/// Renders an icon button
 	/// </summary>
-	/// <param name="x">X position</param>
-	/// <param name="y">Y position</param>
 	/// <param name="icon">Icon name (images/{icon}.png)</param>
 	/// <returns>Whether the button is pressed</returns>
 	private static bool IconButton(int x, int y, string icon)
 	{
-		return SplashKit.BitmapButton(
-			new Bitmap(icon, icon + ".png"),
-			new Rectangle { X = x, Y = y, Width = 70, Height = 70 }
+		SplashKit.StartInset(icon, SplashKit.RectangleFrom(x, y, 100, 100));
+		bool isPressed = SplashKit.BitmapButton(
+			SplashKit.LoadBitmap(icon, icon + ".png"),
+			SplashKit.RectangleFrom(15, 15, 60, 60)
 		);
+		SplashKit.EndInset(icon);
+		return isPressed;
 	}
 }
