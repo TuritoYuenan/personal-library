@@ -18,9 +18,9 @@ public class SettingsPage : IPage
 		_settings = Settings.GetInstance();
 	}
 
-	public void Render()
+	private string InterfaceStyleLabel()
 	{
-		string appearance = _settings.Appearance switch
+		return _settings.Appearance switch
 		{
 			InterfaceStyle.FlatDarkStyle => "Dark & Flat",
 			InterfaceStyle.ShadedDarkStyle => "Dark & Shaded",
@@ -30,11 +30,17 @@ public class SettingsPage : IPage
 			InterfaceStyle.BubbleMulticolored => "Bubbly & Colorful",
 			_ => "Unknown"
 		};
+	}
 
+	public void Render()
+	{
+		SplashKit.SetInterfaceLabelWidth(200);
 		SplashKit.SetInterfaceFontSize(20);
-		SplashKit.StartInset("s1", new Rectangle() { X = 20, Y = 110, Width = 620, Height = 580 });
+		SplashKit.StartInset("s1", new Rectangle() { X = 20, Y = 110, Width = 680, Height = 580 });
 
-		_settings.Appearance = (InterfaceStyle)SplashKit.Slider(appearance, (float)_settings.Appearance, 0, 5);
+		_settings.Appearance = (InterfaceStyle)SplashKit.Slider(
+			InterfaceStyleLabel(), (uint)_settings.Appearance, 0, 5
+		);
 		_settings.SavePath = SplashKit.TextBox("Save Location", _settings.SavePath);
 
 		// Update SplashKit interface style
@@ -42,8 +48,16 @@ public class SettingsPage : IPage
 
 		SplashKit.EndInset("s1");
 
-		SplashKit.StartInset("s2", new Rectangle() { X = 660, Y = 110, Width = 590, Height = 580 });
+		SplashKit.StartInset("about", new Rectangle() { X = 720, Y = 110, Width = 530, Height = 580 });
 
-		SplashKit.EndInset("s2");
+		SplashKit.SetInterfaceFontSize(40);
+		SplashKit.Label("Personal Library Program");
+		SplashKit.SetInterfaceFontSize(20);
+		SplashKit.Label("Author: Nguyen Ta Minh Triet (Freshman@Swinburne)");
+		SplashKit.Label("Contact: <104993913@student.swin.edu.au>");
+		SplashKit.Label("Website: http://turitoyuenan.proton.me");
+		SplashKit.Label("GitHub Repository: TuritoYuenan/personal-library");
+
+		SplashKit.EndInset("about");
 	}
 }

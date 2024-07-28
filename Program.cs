@@ -19,7 +19,6 @@ internal class Program
 		ui.GoInto(new ShelfPage(shelf));
 
 		SplashKit.SetInterfaceFont(SplashKit.GetSystemFont());
-		SplashKit.SetInterfaceLabelWidth(200);
 		while (!ui.Window.CloseRequested)
 		{
 			SplashKit.ProcessEvents();

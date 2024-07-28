@@ -4,29 +4,30 @@
 classDiagram
 direction TB
 
-Program <.. Shelf
-Program <.. Settings
 Program <.. UserInterface
-
-Shelf o-- Material
 Shelf <.. CreateMaterial
+
 Material <|-- Book
 Material <|-- Article
 Material <|-- Video
 Material <|-- Webpage
 
-Article *-- ANumbers
 Article ..|> IOnline: implements
 Webpage ..|> IOnline: implements
 Video ..|> IOnline: implements
-MaterialPage <.. IOnline
 
-UserInterface o-- IPage
+UserInterface "1" o-- "1..n" IPage
 IPage <|.. MaterialPage: implements
+IPage <|.. AddPage: implements
 IPage <|.. ShelfPage: implements
 IPage <|.. SettingsPage: implements
 
+MaterialPage *-- Material
+SettingsPage *-- Settings
+ShelfPage *-- Shelf
+
 class Program {
+	<<Entry Point>>
 	+ Main()$
 	- SaveData(Shelf, Settings)$
 	- LoadData(Shelf, Settings)$
@@ -55,10 +56,12 @@ class Settings {
 	<<Singleton>>
 	- _instance: Settings$
 	- _padlock: object$
-	+ DarkMode: bool ~~property~~
+	+ Appearance: InterfaceStyle ~~property~~
 	+ SavePath: string ~~property~~
 	+ Instance: Settings ~~RO property~~
 	- Settings()
+	+ ToJson() Json
+	+ FromJson(Json)
 }
 class Shelf {
 	+ Contents: ListMaterial ~~RO property~~
@@ -69,58 +72,58 @@ class Shelf {
 	+ Clear()
 	+ GetRack(int) List~Material~
 	+ ToJsonList() List~Json~
+	+ FromJsonList(List~Json~)
 }
 class Material {
 	<<Abstract>>
+	- _image: Bitmap
 	+ Authors: string[] ~~property~~
 	+ Title: string ~~property~~
 	+ Date: DateOnly ~~property~~
-	+ Material(...)
+	+ ID ~~property~~*
+	+ Material()
 	+ Material(Json)
 	+ ToJson() Json
-	+ GetID()*
+	+ GetImage() Bitmap
 }
 class Book {
 	+ ISBN: string ~~property~~
 	+ Edition: string ~~property~~
 	+ Publisher: string ~~property~~
 	+ ID: string ~~RO property~~
-	+ Book(...)
+	+ Book()
 	+ Book(Json)
 	+ ToJson() Json
+	+ GetImage() Bitmap
 }
 class Article {
 	+ DOI: string ~~property~~
 	+ Publisher: string ~~property~~
-	+ Numbers: int ~~property~~
+	+ Numbers: ValueTuple ~~property~~
 	+ Link: Uri ~~RO property~~
 	+ ID: string ~~RO property~~
-	+ Article(...)
+	+ Article()
 	+ Article(Json)
 	+ ToJson() Json
+	+ GetImage() Bitmap
 }
 class Webpage {
 	+ Website: string ~~property~~
 	+ Link: Uri ~~property~~
 	+ ID: string ~~RO property~~
-	+ Webpage(...)
+	+ Webpage()
 	+ Webpage(Json)
 	+ ToJson() Json
+	+ GetImage() Bitmap
 }
 class Video {
 	+ Platform: string ~~property~~
 	+ Link: Uri ~~property~~
 	+ ID: string ~~RO property~~
-	+ Video(...)
+	+ Video()
 	+ Video(Json)
 	+ ToJson() Json
-}
-class ANumbers {
-	<<Tuple type>>
-	int Volume
-	int Issue
-	int Start
-	int End
+	+ GetImage() Bitmap
 }
 
 %% Views
@@ -129,9 +132,9 @@ class UserInterface {
 	<<Singleton>>
 	- _instance: UserInterface$
 	- _padlock: object$
-	- _page: Stack~IPage~
+	- _pages: Stack~IPage~
 	+ Window: Window ~~RO property~~
-	+ Buttons: Dictionary~string, bool~ ~~RO property~~
+	+ Buttons: Dictionary ~~RO property~~
 	+ CurrentPage: IPage ~~RO property~~
 	+ IsStartPage: bool ~~RO property~~
 	- UserInterface()
@@ -140,6 +143,11 @@ class UserInterface {
 	+ GoBack() IPage
 	+ Render()
 	- IconButton(int, int, string)$ bool
+}
+class AddPage {
+	+ Title: string ~~RO property~~
+	+ AddPage(Material)
+	+ Render()
 }
 class MaterialPage {
 	- material: Material
