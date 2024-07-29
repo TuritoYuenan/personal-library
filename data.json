@@ -18,9 +18,9 @@
             "date": "01/01/2012",
             "doi": "10.7560/IC47402",
             "issue": 4,
-            "publisher": "Information & Culture",
             "page1": 414,
             "page2": 456,
+            "publisher": "Information & Culture",
             "title": "Computer Science in French Universities: Early Entrants and Latecomers",
             "type": "article",
             "volume": 47
@@ -32,9 +32,9 @@
             "date": "12/01/2021",
             "doi": "10.1126/science.371.6527.331",
             "issue": 6527,
-            "publisher": "Science",
             "page1": 331,
             "page2": 332,
+            "publisher": "Science",
             "title": "Disgraced COVID-19 studies are still routinely cited",
             "type": "article",
             "volume": 371
@@ -51,7 +51,7 @@
         }
     ],
     "settings": {
-        "darkMode": false,
+        "appearance": 0,
         "savePath": "data.json"
     }
 }

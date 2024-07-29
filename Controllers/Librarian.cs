@@ -20,12 +20,12 @@ public class Librarian
 	public void Execute()
 	{
 		SplashKit.SetInterfaceFont(SplashKit.GetSystemFont());
-		SplashKit.SetInterfaceStyle(_settings.Appearance);
 
 		_ui.GoInto(new ShelfPage(_shelf));
 
 		while (!_ui.Window.CloseRequested)
 		{
+			SplashKit.SetInterfaceStyle(_settings.Appearance);
 			SplashKit.ProcessEvents();
 
 			if (SplashKit.KeyTyped(KeyCode.SKey)) SaveData();
@@ -38,6 +38,11 @@ public class Librarian
 
 			_ui.Render();
 		}
+	}
+
+	public static void ErrorDialog(Exception e)
+	{
+		SplashKit.DisplayDialog("Error", e.Message, SplashKit.GetSystemFont(), 10);
 	}
 
 	/// <summary>
@@ -53,7 +58,8 @@ public class Librarian
 		json.AddObject("settings", _settings.ToJson());
 
 		// Save JSON to save file
-		File.WriteAllTextAsync(_settings.SavePath, Json.ToJsonString(json));
+		string savePath = _settings.SavePath ?? "data.json";
+		File.WriteAllTextAsync(savePath, Json.ToJsonString(json));
 
 		// Free JSON resource
 		Json.FreeAll();

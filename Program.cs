@@ -17,6 +17,10 @@ internal class Program
 		Librarian librarian = new(shelf, settings, ui);
 
 		try { librarian.Execute(); }
-		catch (Exception e) { Console.Error.WriteLine(e.Message); }
+		catch (Exception e)
+		{
+			Console.Error.WriteLine(e.Message);
+			Librarian.ErrorDialog(e);
+		}
 	}
 }

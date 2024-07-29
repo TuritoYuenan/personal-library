@@ -1,4 +1,4 @@
-﻿using ANumbers = (int Volume, int Issue, int Start, int End);
+﻿using ArticleNumbers = (int Volume, int Issue, int Start, int End);
 using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
@@ -22,7 +22,7 @@ public class Article : Material, IOnline
 	/// <summary>
 	/// Volume, issue, start-end page
 	/// </summary>
-	public ANumbers Numbers { get; set; }
+	public ArticleNumbers Numbers { get; set; }
 
 	/// <summary>
 	/// Online permalink generated from the DOI

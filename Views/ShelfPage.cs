@@ -49,13 +49,12 @@ public class ShelfPage : IPage
 	/// <param name="y">Y position</param>
 	private static void ShelfRack(int x, int y)
 	{
-		Point2D[] points = [
-			new() { X = x, Y = y + 60 },
-			new() { X = x + 96, Y = y },
-			new() { X = x + 1216, Y = y + 60 },
-			new() { X = x + 1120, Y = y },
-		];
-		SplashKit.FillQuad(Color.Brown, new() { Points = points });
+		SplashKit.FillQuad(Color.Brown, SplashKit.QuadFrom(
+			x, y + 60,
+			x + 96, y,
+			x + 1216, y + 60,
+			x + 1120, y
+		));
 	}
 
 	/// <summary>
@@ -67,16 +66,19 @@ public class ShelfPage : IPage
 	private static void MaterialCard(int x, int y, Material data)
 	{
 		// Bounding box: w = 180, w = 270
-		Rectangle coverImgBox = new() { Height = 170, Width = 120, X = x + 30, Y = y };
+		Rectangle coverImgBox = SplashKit.RectangleFrom(x + 30, y, 120, 170);
 		SplashKit.FillRectangle(Color.Tomato, coverImgBox);
 
 		SplashKit.SetInterfaceFontSize(20);
-		SplashKit.Label(data.Authors[0], new() { X = x, Y = y + 190, Height = 30, Width = 165 });
+		SplashKit.Label(
+			data.Authors[0],
+			SplashKit.RectangleFrom(x, y + 190, 165, 30)
+		);
 
 		SplashKit.SetInterfaceFontSize(18);
 		SplashKit.Paragraph(
 			data.Title.Truncate(30),
-			new() { X = x + 5, Y = y + 220, Height = 30, Width = 165 }
+			SplashKit.RectangleFrom(x + 5, y + 220, 165, 30)
 		);
 
 		if (

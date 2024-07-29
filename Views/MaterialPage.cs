@@ -36,15 +36,15 @@ public class MaterialPage : IPage
 
 		// Date
 		SplashKit.SetInterfaceFontSize(28);
-		SplashKit.Label(_material.Date.ToString(), new() { X = 523, Y = 120, Width = 610, Height = 38 });
+		SplashKit.Label(_material.Date.ToString(), SplashKit.RectangleFrom(523, 120, 610, 38));
 
 		// Title
 		SplashKit.SetInterfaceFontSize(48);
-		SplashKit.Paragraph(_material.Title, new() { X = 528, Y = 160, Width = 610, Height = 112 });
+		SplashKit.Paragraph(_material.Title, SplashKit.RectangleFrom(528, 160, 610, 112));
 
 		// Authors
 		SplashKit.SetInterfaceFontSize(20);
-		SplashKit.Label(string.Join(" / ", _material.Authors), new() { X = 528, Y = 312, Width = 610, Height = 28 });
+		SplashKit.Label(string.Join(" / ", _material.Authors), SplashKit.RectangleFrom(528, 312, 610, 28));
 
 		// Display "View Online" button is material is available online
 		if (_material is IOnline onlineMaterial)
@@ -63,7 +63,7 @@ public class MaterialPage : IPage
 	private static bool ViewOnlineButton(int x, int y)
 	{
 		SplashKit.SetInterfaceFontSize(20);
-		return SplashKit.Button("View Online", new Rectangle() { X = x, Y = y, Width = 186, Height = 60 });
+		return SplashKit.Button("View Online", SplashKit.RectangleFrom(x, y, 186, 60));
 	}
 
 	/// <summary>
@@ -72,7 +72,7 @@ public class MaterialPage : IPage
 	/// <param name="link">Address to where the material can be found online</param>
 	private static Process? ViewOnline(Uri link)
 	{
-		ProcessStartInfo startInfo = new() { FileName = link.AbsoluteUri, UseShellExecute = true };
+		ProcessStartInfo startInfo = new(link.AbsoluteUri) { UseShellExecute = true };
 		return Process.Start(startInfo);
 	}
 }
