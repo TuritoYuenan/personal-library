@@ -1,4 +1,4 @@
-﻿namespace PersonalLibrary.Interfaces;
+﻿namespace PersonalLibrary.Models;
 
 public interface IOnline
 {

@@ -1,5 +1,4 @@
 ﻿using ArticleNumbers = (int Volume, int Issue, int Start, int End);
-using PersonalLibrary.Interfaces;
 using SplashKitSDK;
 
 namespace PersonalLibrary.Models;

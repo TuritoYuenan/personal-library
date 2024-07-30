@@ -1,5 +1,4 @@
-﻿using PersonalLibrary.Interfaces;
-using SplashKitSDK;
+﻿using SplashKitSDK;
 
 namespace PersonalLibrary.Models;
 

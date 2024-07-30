@@ -1,5 +1,4 @@
-﻿using PersonalLibrary.Interfaces;
-using PersonalLibrary.Models;
+﻿using PersonalLibrary.Models;
 using SplashKitSDK;
 using System.Diagnostics;
 

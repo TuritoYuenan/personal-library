@@ -1,4 +1,4 @@
-﻿namespace PersonalLibrary.Interfaces;
+﻿namespace PersonalLibrary.Views;
 
 /// <summary>
 /// Represents a page that contains a title and a renderable interface
