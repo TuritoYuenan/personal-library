@@ -8,9 +8,9 @@ namespace PersonalLibrary.Models;
 public class YouTubeVideo : Material, IOnline
 {
 	/// <summary>
-	/// Platform/Website where the video is uploaded
+	/// YouTube channel that uploaded the video
 	/// </summary>
-	public string Platform { get; set; }
+	public string Channel { get; set; }
 
 	/// <summary>
 	/// URL to where the video can be accessed
@@ -21,13 +21,13 @@ public class YouTubeVideo : Material, IOnline
 
 	public YouTubeVideo() : base()
 	{
-		Platform = "";
+		Channel = "";
 		Link = new("");
 	}
 
 	public YouTubeVideo(Json json) : base(json)
 	{
-		Platform = json.ReadString("platform");
+		Channel = json.ReadString("channel");
 		Link = new(json.ReadString("url"));
 	}
 
@@ -35,7 +35,7 @@ public class YouTubeVideo : Material, IOnline
 	{
 		Json json = base.ToJson();
 		json.AddString("type", "video");
-		json.AddString("platform", Platform);
+		json.AddString("channel", Channel);
 		json.AddString("url", Link.AbsoluteUri);
 		return json;
 	}

@@ -26,13 +26,11 @@ public static class CreateMaterial
 	public static Material TestMaterial()
 	{
 		return new Book()
-		{
-			Authors = ["Erich Gamma", "Richard Helm", "Ralph Johnson", "John Vlissides"],
-			Title = "Design Patterns: Elements of Reusable Object-Oriented Software",
-			Date = new(1994, 10, 21),
-			Publisher = "Addison-Wesley",
-			Edition = "Original",
-			Isbn = "0-201-63361-2"
-		};
+			.AddIsbn("0-201-63361-2")
+			.AddEdition("Original")
+			.AddPublication("Addison-Wesley")
+			.AddDate(1994, 10, 21)
+			.AddTitle("Design Patterns: Elements of Reusable Object-Oriented Software")
+			.AddAuthors("Erich Gamma", "Richard Helm", "Ralph Johnson", "John Vlissides");
 	}
 }

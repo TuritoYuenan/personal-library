@@ -58,14 +58,27 @@ public class AddPage : IPage
 			_common.I = TextField(320, 370, "DOI", _common.I);
 		}
 
-		if (_type == 2 || _type == 3)
+		if (_type == 2)
 		{
 			_common.P = TextField(320, 325, "Website", _common.P);
-			_common.I = TextField(320, 370, "URL", _common.I);
+			_common.I = TextField(320, 370, "Webpage URL", _common.I);
+		}
+
+		if (_type == 3)
+		{
+			_common.P = TextField(320, 325, "Channel", _common.P);
+			_common.I = TextField(320, 370, "Video URL", _common.I);
 		}
 
 		_buttons["create"] = SplashKit.Button("Add to Shelf", SplashKit.RectangleFrom(520, 550, 200, 100));
-		if (_buttons["create"]) BuildMaterial();
+		if (_buttons["create"])
+		{
+			try { BuildMaterial(); }
+			catch (Exception e)
+			{
+				SplashKit.DisplayDialog("Wrong format", e.Message, SplashKit.GetSystemFont(), 20);
+			}
+		}
 	}
 
 	private static string TextField(int x, int y, string label, string value)
@@ -98,36 +111,27 @@ public class AddPage : IPage
 
 	private Material BuildMaterial()
 	{
-		var authors = _common.A.Split([',', '/']);
-		return _type switch
+		Material material = _type switch
 		{
 			0 => new Book()
 				.AddIsbn(_common.I)
 				.AddEdition(_bEdition)
-				.AddPublication(_common.P)
-				.AddDate(_date.Y, _date.M, _date.D)
-				.AddTitle(_common.T)
-				.AddAuthors(authors),
+				.AddPublication(_common.P),
 			1 => new Article()
 				.AddDoi(_common.I)
 				.AddNumbers(_article.V, _article.I, _article.S, _article.E)
-				.AddPublication(_common.P)
-				.AddDate(_date.Y, _date.M, _date.D)
-				.AddTitle(_common.T)
-				.AddAuthors(authors),
+				.AddPublication(_common.P),
 			2 => new Webpage()
 				.AddLink(_common.I)
-				.AddPublication(_common.P)
-				.AddDate(_date.Y, _date.M, _date.D)
-				.AddTitle(_common.T)
-				.AddAuthors(authors),
+				.AddPublication(_common.P),
 			3 => new YouTubeVideo()
 				.AddLink(_common.I)
-				.AddPublication(_common.P)
-				.AddDate(_date.Y, _date.M, _date.D)
-				.AddTitle(_common.T)
-				.AddAuthors(authors),
-			_ => throw new NotSupportedException("Unknown type")
+				.AddPublication(_common.P),
+			_ => throw new NotSupportedException("Unsupported material type")
 		};
+		return material
+			.AddAuthors(_common.A.Split([',', '/']).Select(author => author.Trim()).ToArray())
+			.AddTitle(_common.T)
+			.AddDate(_date.Y, _date.M, _date.D);
 	}
 }

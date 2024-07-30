@@ -7,11 +7,13 @@ namespace PersonalLibrary.Models;
 /// </summary>
 /// <remarks>Implements the Builder design pattern</remarks>
 /// <see href="https://www.webdevtutor.net/blog/c-sharp-builder-pattern-extension-methods"/>
+/// <remarks>Implement fluent interface</remarks>
+/// <see href="https://en.wikipedia.org/wiki/Fluent_interface"/>
 public static partial class MaterialBuilder
 {
-	public static Material AddAuthors(this Material material, string[] authors)
+	public static Material AddAuthors(this Material material, params string[] authors)
 	{
-		material.Authors = [.. authors];
+		material.Authors.AddRange(authors);
 		return material;
 	}
 
@@ -40,7 +42,7 @@ public static partial class MaterialBuilder
 		if (material is Book book) book.Publisher = publication;
 		if (material is Article article) article.Publisher = publication;
 		if (material is Webpage webpage) webpage.Website = publication;
-		if (material is YouTubeVideo video) video.Platform = publication;
+		if (material is YouTubeVideo video) video.Channel = publication;
 		return material;
 	}
 
