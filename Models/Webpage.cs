@@ -45,7 +45,7 @@ public class Webpage : Material, IOnline
 	{
 		if (_image == null)
 		{
-			_image = await Task.Run(() => new Bitmap("", ""));
+			_image = await Task.Run(() => new Bitmap("settings", "settings.png"));
 		}
 		return _image;
 	}

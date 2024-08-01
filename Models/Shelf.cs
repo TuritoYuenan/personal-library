@@ -9,17 +9,6 @@ public class Shelf
 {
 	private readonly List<Material> _items;
 
-	/// <summary>
-	/// Collection-like access to shelf items
-	/// </summary>
-	/// <param name="key">Index of item</param>
-	/// <returns>A material on the shelf</returns>
-	public Material this[int key]
-	{
-		get => _items[key];
-		set => _items[key] = value;
-	}
-
 	public Shelf()
 	{
 		_items = [];

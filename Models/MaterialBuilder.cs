@@ -88,13 +88,9 @@ public static partial class MaterialBuilder
 		return webpage;
 	}
 
-	public static YouTubeVideo AddLink(this YouTubeVideo video, string url)
+	public static YouTubeVideo AddVideoId(this YouTubeVideo video, string id)
 	{
-		if (!UrlPattern().IsMatch(url))
-		{
-			throw new ArgumentException("The given URL is not valid");
-		}
-		video.Link = new(url);
+		video.VideoId = new(id);
 		return video;
 	}
 

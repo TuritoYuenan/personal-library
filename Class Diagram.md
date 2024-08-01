@@ -4,27 +4,28 @@
 classDiagram
 direction TB
 
-Program <.. UserInterface
-Shelf <.. CreateMaterial
+Program <.. Librarian
+Librarian *-- Shelf
+Librarian *-- Settings
+Librarian *-- UserInterface
+
+Shelf o-- Material
 
 Material <|-- Book
 Material <|-- Article
-Material <|-- Video
 Material <|-- Webpage
+Material <|-- YouTubeVideo
 
 Article ..|> IOnline: implements
 Webpage ..|> IOnline: implements
-Video ..|> IOnline: implements
+YouTubeVideo ..|> IOnline: implements
 
-UserInterface "1" o-- "1..n" IPage
+UserInterface *-- Navigator
 IPage <|.. MaterialPage: implements
 IPage <|.. AddPage: implements
+Navigator "1" o-- "1..n" IPage
 IPage <|.. ShelfPage: implements
 IPage <|.. SettingsPage: implements
-
-MaterialPage *-- Material
-SettingsPage *-- Settings
-ShelfPage *-- Shelf
 
 class Program {
 	<<Entry Point>>
@@ -33,24 +34,32 @@ class Program {
 	- LoadData(Shelf, Settings)$
 }
 
-%% Interfaces
+%% Models
 
 class IOnline {
 	<<Interface>>
 	+ OpenLink()
 }
-class IPage {
-	<<Interface>>
-	+ Title: string ~~RO property~~
-	+ Render()
-}
-
-%% Models
-
 class CreateMaterial {
 	<<Factory>>
 	+ FromJson(Json)$ Material
 	+ TestMaterial()$ Material
+}
+class MaterialBuilder {
+	<<Builder>>
+	+ AddAuthors(this Material, string[]) Material
+	+ AddTitle(this Material, string) Material
+	+ AddDate(this Material, int, int, int) Material
+	+ AddPublication(this Material, string) Material
+	+ AddEdition(this Book, string) Book
+	+ AddIsbn(this Book, string) Book
+	+ AddNumbers(this Article, string[]) Article
+	+ AddDoi(this Article, string[]) Article
+	+ AddLink(this Webpage, string[]) Webpage
+	+ AddLink(this YouTubeVideo, string[]) YouTubeVideo
+	- IsbnPattern() Regex
+	- DoiPattern() Regex
+	- UrlPattern() Regex
 }
 class Settings {
 	<<Singleton>>
@@ -84,7 +93,7 @@ class Material {
 	+ Material()
 	+ Material(Json)
 	+ ToJson() Json
-	+ GetImage() Bitmap
+	+ GetImage()* Task~Bitmap~
 }
 class Book {
 	+ ISBN: string ~~property~~
@@ -94,7 +103,7 @@ class Book {
 	+ Book()
 	+ Book(Json)
 	+ ToJson() Json
-	+ GetImage() Bitmap
+	+ GetImage() Task~Bitmap~
 }
 class Article {
 	+ DOI: string ~~property~~
@@ -105,7 +114,7 @@ class Article {
 	+ Article()
 	+ Article(Json)
 	+ ToJson() Json
-	+ GetImage() Bitmap
+	+ GetImage() Task~Bitmap~
 }
 class Webpage {
 	+ Website: string ~~property~~
@@ -114,43 +123,50 @@ class Webpage {
 	+ Webpage()
 	+ Webpage(Json)
 	+ ToJson() Json
-	+ GetImage() Bitmap
+	+ GetImage() Task~Bitmap~
 }
-class Video {
-	+ Platform: string ~~property~~
-	+ Link: Uri ~~property~~
+class YouTubeVideo {
+	+ Channel: string ~~property~~
+	+ VideoId: string ~~property~~
+	+ Link: Uri ~~RO property~~
 	+ ID: string ~~RO property~~
-	+ Video()
-	+ Video(Json)
+	+ YouTubeVideo()
+	+ YouTubeVideo(Json)
 	+ ToJson() Json
-	+ GetImage() Bitmap
+	+ GetImage() Task~Bitmap~
 }
-
 %% Views
 
 class UserInterface {
-	<<Singleton>>
-	- _instance: UserInterface$
-	- _padlock: object$
-	- _pages: Stack~IPage~
+	- _buttons: Dictionary ~~RO property~~
 	+ Window: Window ~~RO property~~
-	+ Buttons: Dictionary ~~RO property~~
-	+ CurrentPage: IPage ~~RO property~~
-	+ IsStartPage: bool ~~RO property~~
+	+ Navigator: Navigator ~~RO property~~
 	- UserInterface()
 	+ GetInstance() UserInterface$
-	+ GoInto(IPage)
-	+ GoBack() IPage
 	+ Render()
 	- IconButton(int, int, string)$ bool
 }
+class IPage {
+	<<Interface>>
+	+ Title: string ~~RO property~~
+	+ Render()
+}
 class AddPage {
+	- _buttons: Dictionary~string, bool~
+	- _txt: Dictionary~string, string~
+	- _num: Dictionary~string, int~
+	- _type: int
 	+ Title: string ~~RO property~~
 	+ AddPage(Material)
 	+ Render()
+	- TextField(int, int, string, string)
+	- NumberField(int, int, string, int)
+	- TypeLabel()
+	- BuildMaterial()
 }
 class MaterialPage {
-	- material: Material
+	- _material: Material
+	- _button: Dictionary~string, bool~
 	+ Title: string ~~RO property~~
 	+ MaterialPage(Material)
 	+ Render()
@@ -162,6 +178,8 @@ class SettingsPage {
 	+ Title: string ~~RO property~~
 	+ SettingsPage()
 	+ Render()
+	- Heading(string)
+	- AppearanceLabel()
 }
 class ShelfPage {
 	- shelf: Shelf
@@ -170,5 +188,29 @@ class ShelfPage {
 	+ Render()
 	- ShelfRack(int, int)
 	- MaterialCard(int, int, Material)
+}
+
+%% Controllers
+
+class Librarian {
+	<<Controller>>
+	- _shelf: Shelf
+	- _settings: Settings
+	- _navigator: Navigator
+	- _ui: UserInterface
+}
+class Navigator {
+	<<Controller>>
+	- _pages: Stack~IPage~
+	+ CurrentPage: IPage
+	+ IsStartPage: bool
+	+ GoInto(IPage)
+	+ GoBack() IPage
+}
+class ToDoList {
+	<<Controller>>
+	- _tasks: Queue~KeyValuePair~string, object~~
+	+ AddTask(string, object)
+	+ GetTask() string, object
 }
 ```

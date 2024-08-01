@@ -31,4 +31,4 @@
 	- Title: What Game Theory Reveals About Life, The Universe, and Everything
 	- Date: 2023-12-24
 	- Channel: Veritasium
-	- URL: https://youtu.be/mScpHTIi-kM
+	- ID: mScpHTIi-kM

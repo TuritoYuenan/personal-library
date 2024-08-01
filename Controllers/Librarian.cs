@@ -4,16 +4,19 @@ using SplashKitSDK;
 
 namespace PersonalLibrary.Controllers;
 
+/// <summary>
+/// Represents the library's main controller
+/// </summary>
 public class Librarian
 {
 	private readonly Shelf _shelf;
 	private readonly Settings _settings;
 	private readonly UserInterface _ui;
 
-	public Librarian(Shelf shelf, Settings settings, UserInterface ui)
+	public Librarian(Shelf shelf, UserInterface ui)
 	{
 		_shelf = shelf;
-		_settings = settings;
+		_settings = Settings.GetInstance();
 		_ui = ui;
 	}
 
@@ -21,7 +24,7 @@ public class Librarian
 	{
 		SplashKit.SetInterfaceFont(SplashKit.GetSystemFont());
 
-		Navigator.GoInto(new ShelfPage(_shelf));
+		_ui.Navigator.GoInto(new ShelfPage(_shelf));
 
 		while (!_ui.Window.CloseRequested)
 		{
@@ -29,21 +32,24 @@ public class Librarian
 			SplashKit.ProcessEvents();
 
 			// Handle keybinds
-			if (SplashKit.KeyTyped(KeyCode.SKey)) SaveData();
-			if (SplashKit.KeyTyped(KeyCode.LKey)) LoadData();
-			if (SplashKit.KeyTyped(KeyCode.EscapeKey))
+			if (SplashKit.KeyTyped(KeyCode.EscapeKey)) _ui.Navigator.GoBack();
+			if (SplashKit.KeyDown(KeyCode.LeftCtrlKey))
 			{
-				if (Navigator.IsStartPage) { _ui.Window.Close(); }
-				else { Navigator.GoBack(); }
+				if (SplashKit.KeyTyped(KeyCode.QKey)) _ui.Window.Close();
+				if (SplashKit.KeyTyped(KeyCode.SKey)) SaveData();
+				if (SplashKit.KeyTyped(KeyCode.LKey)) LoadData();
 			}
 
-			// Handle messages
-			(string command, object data) = Broker.Poll();
-
-			if (command == "add_item" && data is Material material)
+			// Perform tasks from to-do list
+			(string task, object data) = ToDoList.GetTask();
+			if (task == "add_item" && data is Material material)
 			{
 				_shelf.Add(material);
-				while (!Navigator.IsStartPage) Navigator.GoBack();
+				while (!_ui.Navigator.IsStartPage) _ui.Navigator.GoBack();
+			}
+			if (task == "go_into" && data is IPage page)
+			{
+				_ui.Navigator.GoInto(page);
 			}
 
 			_ui.Render();

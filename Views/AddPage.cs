@@ -7,22 +7,30 @@ namespace PersonalLibrary.Views;
 public class AddPage : IPage
 {
 	private Dictionary<string, bool> _buttons;
+	private Dictionary<string, string> _txt;
+	private Dictionary<string, int> _num;
 	private int _type;
-	private (string A, string T, string P, string I) _common;
-	private (int Y, int M, int D) _date;
-	private (int V, int I, int S, int E) _article;
-	private string _bEdition;
 
-	public string Title => "Add New " + TypeLabel();
+	public string Title => "Add new " + TypeLabel();
 
 	public AddPage()
 	{
 		_buttons = [];
+		_txt = [];
+		_txt["authors"] = "";
+		_txt["title"] = "";
+		_txt["pub"] = "";
+		_txt["edition"] = "";
+		_txt["id"] = "";
+		_num = [];
+		_num["year"] = 1900;
+		_num["month"] = 1;
+		_num["day"] = 1;
+		_num["volume"] = -1;
+		_num["issue"] = -1;
+		_num["start"] = -1;
+		_num["end"] = -1;
 		_type = 0;
-		_common = ("", "", "", "");
-		_date = (2000, 1, 1);
-		_bEdition = "";
-		_article = (-1, -1, -1, -1);
 	}
 
 	public void Render()
@@ -36,39 +44,36 @@ public class AddPage : IPage
 		SplashKit.EndInset("Type");
 
 		SplashKit.SetInterfaceLabelWidth(100);
-		_common.A = TextField(320, 190, "Author(s)", _common.A);
-		_common.T = TextField(320, 235, "Title", _common.T);
-		_date.Y = NumberField(320, 280, "Year", _date.Y);
-		_date.M = NumberField(520, 280, "Month", _date.M);
-		_date.D = NumberField(720, 280, "Day", _date.D);
+		_txt["authors"] = TextField(320, 190, "Author(s)", _txt["authors"]);
+		_txt["title"] = TextField(320, 235, "Title", _txt["title"]);
+		_num["year"] = NumberField(320, 280, "Year", _num["year"]);
+		_num["month"] = NumberField(520, 280, "Month", _num["month"]);
+		_num["day"] = NumberField(720, 280, "Day", _num["day"]);
 
 		if (_type == 0)
 		{
-			_common.P = TextField(320, 325, "Publisher", _common.P);
-			_bEdition = TextField(320, 370, "Edition", _bEdition);
-			_common.I = TextField(320, 415, "ISBN", _common.I);
+			_txt["pub"] = TextField(320, 325, "Publisher", _txt["pub"]);
+			_txt["edition"] = TextField(320, 370, "Edition", _txt["edition"]);
+			_txt["id"] = TextField(320, 415, "ISBN", _txt["id"]);
 		}
-
 		if (_type == 1)
 		{
-			_common.P = TextField(320, 325, "Publisher", _common.P);
-			_article.V = NumberField(420, 415, "Volume", _article.V);
-			_article.I = NumberField(620, 415, "Issue", _article.I);
-			_article.S = NumberField(420, 460, "Page", _article.S);
-			_article.E = NumberField(620, 460, "Page", _article.E);
-			_common.I = TextField(320, 370, "DOI", _common.I);
+			_txt["pub"] = TextField(320, 325, "Publisher", _txt["pub"]);
+			_num["volume"] = NumberField(420, 415, "Volume", _num["volume"]);
+			_num["issue"] = NumberField(620, 415, "Issue", _num["issue"]);
+			_num["start"] = NumberField(420, 460, "Page", _num["start"]);
+			_num["end"] = NumberField(620, 460, "Page", _num["end"]);
+			_txt["id"] = TextField(320, 370, "DOI", _txt["id"]);
 		}
-
 		if (_type == 2)
 		{
-			_common.P = TextField(320, 325, "Website", _common.P);
-			_common.I = TextField(320, 370, "URL", _common.I);
+			_txt["pub"] = TextField(320, 325, "Website", _txt["pub"]);
+			_txt["id"] = TextField(320, 370, "URL", _txt["id"]);
 		}
-
 		if (_type == 3)
 		{
-			_common.P = TextField(320, 325, "Channel", _common.P);
-			_common.I = TextField(320, 370, "URL", _common.I);
+			_txt["pub"] = TextField(320, 325, "Channel", _txt["pub"]);
+			_txt["id"] = TextField(320, 370, "ID", _txt["id"]);
 		}
 
 		_buttons["create"] = SplashKit.Button("Add to Shelf", SplashKit.RectangleFrom(520, 550, 200, 100));
@@ -77,7 +82,7 @@ public class AddPage : IPage
 			try
 			{
 				Material material = BuildMaterial();
-				Broker.Publish("add_item", material);
+				ToDoList.AddTask("add_item", material);
 			}
 			catch (Exception e)
 			{
@@ -109,7 +114,7 @@ public class AddPage : IPage
 			0 => "Book",
 			1 => "Article",
 			2 => "Webpage",
-			3 => "Video",
+			3 => "YouTube Video",
 			_ => "Material"
 		};
 	}
@@ -119,24 +124,21 @@ public class AddPage : IPage
 		Material material = _type switch
 		{
 			0 => new Book()
-				.AddIsbn(_common.I)
-				.AddEdition(_bEdition)
-				.AddPublication(_common.P),
+				.AddIsbn(_txt["id"])
+				.AddEdition(_txt["edition"]),
 			1 => new Article()
-				.AddDoi(_common.I)
-				.AddNumbers(_article.V, _article.I, _article.S, _article.E)
-				.AddPublication(_common.P),
+				.AddDoi(_txt["id"])
+				.AddNumbers(_num["volume"], _num["issue"], _num["start"], _num["end"]),
 			2 => new Webpage()
-				.AddLink(_common.I)
-				.AddPublication(_common.P),
+				.AddLink(_txt["id"]),
 			3 => new YouTubeVideo()
-				.AddLink(_common.I)
-				.AddPublication(_common.P),
+				.AddVideoId(_txt["id"]),
 			_ => throw new NotSupportedException("Unsupported material type")
 		};
 		return material
-			.AddAuthors(_common.A.Split([',', '/']).Select(author => author.Trim()).ToArray())
-			.AddTitle(_common.T)
-			.AddDate(_date.Y, _date.M, _date.D);
+			.AddAuthors(_txt["authors"].Split([',', '/']).Select(author => author.Trim()).ToArray())
+			.AddTitle(_txt["title"])
+			.AddDate(_num["year"], _num["month"], _num["day"])
+			.AddPublication(_txt["pub"]);
 	}
 }

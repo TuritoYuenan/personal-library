@@ -11,7 +11,7 @@ public sealed class UserInterface
 	/// <summary>
 	/// Stores button states
 	/// </summary>
-	private Dictionary<string, bool> _buttons;
+	private readonly Dictionary<string, bool> _buttons;
 
 	/// <summary>
 	/// Program window, provided by SplashKit
@@ -19,11 +19,17 @@ public sealed class UserInterface
 	public Window Window { get; }
 
 	/// <summary>
+	/// Page navigation
+	/// </summary>
+	public Navigator Navigator { get; }
+
+	/// <summary>
 	/// Generate program user interface
 	/// </summary>
 	public UserInterface()
 	{
 		Window = new("Personal Library", 1280, 720) { Icon = new("icon", "icon.png") };
+		Navigator = new();
 		_buttons = [];
 	}
 

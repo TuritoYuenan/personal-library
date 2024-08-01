@@ -12,9 +12,8 @@ internal class Program
 	public static void Main()
 	{
 		Shelf shelf = new();
-		Settings settings = Settings.GetInstance();
 		UserInterface ui = new();
-		Librarian librarian = new(shelf, settings, ui);
+		Librarian librarian = new(shelf, ui);
 
 		try { librarian.Execute(); }
 		catch (Exception e)

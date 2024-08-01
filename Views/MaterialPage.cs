@@ -29,28 +29,63 @@ public class MaterialPage : IPage
 
 	public void Render()
 	{
-		// Cover image
-		SplashKit.FillRectangle(Color.LightGray, 148, 130, 360, 510);
-		SplashKit.DrawBitmap(_material.GetImage().GetAwaiter().GetResult(), 148, 130);
+		SplashKit.StartInset("metadata", SplashKit.RectangleFrom(520, 125, 610, 510));
 
 		// Date
 		SplashKit.SetInterfaceFontSize(28);
-		SplashKit.Label(_material.Date.ToString(), SplashKit.RectangleFrom(523, 120, 610, 38));
+		SplashKit.Label(_material.Date.ToString());
 
 		// Title
 		SplashKit.SetInterfaceFontSize(48);
-		SplashKit.Paragraph(_material.Title.Truncate(50), SplashKit.RectangleFrom(528, 160, 610, 112));
+		SplashKit.Paragraph(_material.Title.Truncate(70));
 
 		// Authors
 		SplashKit.SetInterfaceFontSize(20);
-		SplashKit.Label(string.Join(" / ", _material.Authors), SplashKit.RectangleFrom(528, 312, 610, 28));
+		SplashKit.Label("by " + string.Join(" / ", _material.Authors));
+
+		// Publication
+		SplashKit.Label("Published " + _material switch
+		{
+			Book book => $"by {book.Publisher}",
+			Article article => $"in {article.Publisher}",
+			Webpage webpage => $"on {webpage.Website}",
+			YouTubeVideo video => $"by {video.Channel} on YouTube",
+			_ => throw new NotImplementedException(),
+		});
+
+		// Misc
+		SplashKit.Label(_material switch
+		{
+			Book book => $"Edition: {book.Edition}",
+			Article article => $"Volume: {article.Numbers.Volume} | Issue: {article.Numbers.Issue} | Pages: {article.Numbers.Start} - {article.Numbers.End}",
+			Webpage webpage => $"URL: {webpage.Link}",
+			YouTubeVideo video => $"URL: {video.Link}",
+			_ => throw new NotImplementedException(),
+		});
+
+		// ID
+		SplashKit.Label(_material switch
+		{
+			Book book => $"ISBN: {book.Isbn}",
+			Article article => $"DOI: {article.Doi}",
+			Webpage => "",
+			YouTubeVideo video => $"ID: {video.VideoId}",
+			_ => throw new NotImplementedException(),
+		});
+
+		SplashKit.EndInset("metadata");
 
 		// Display "View Online" button is material is available online
 		if (_material is IOnline onlineMaterial)
 		{
-			_buttons["viewOnline"] = ViewOnlineButton(528, 575);
+			_buttons["viewOnline"] = ViewOnlineButton(530, 565);
 			if (_buttons["viewOnline"]) { ViewOnline(onlineMaterial!.Link); }
 		}
+
+		// Cover image
+		Bitmap bmp = _material.GetImage().GetAwaiter().GetResult();
+		SplashKit.FillRectangle(Color.LightGray, 148, 130, 360, 510);
+		SplashKit.DrawBitmap(bmp, 148, 130);
 	}
 
 	/// <summary>
