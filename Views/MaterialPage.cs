@@ -24,14 +24,14 @@ public class MaterialPage : IPage
 	public MaterialPage(Material material)
 	{
 		_material = material;
-		_buttons = UserInterface.GetInstance().Buttons;
+		_buttons = [];
 	}
 
 	public void Render()
 	{
 		// Cover image
 		SplashKit.FillRectangle(Color.LightGray, 148, 130, 360, 510);
-		SplashKit.DrawBitmap(_material.GetImage(), 148, 130);
+		SplashKit.DrawBitmap(_material.GetImage().GetAwaiter().GetResult(), 148, 130);
 
 		// Date
 		SplashKit.SetInterfaceFontSize(28);
@@ -39,7 +39,7 @@ public class MaterialPage : IPage
 
 		// Title
 		SplashKit.SetInterfaceFontSize(48);
-		SplashKit.Paragraph(_material.Title, SplashKit.RectangleFrom(528, 160, 610, 112));
+		SplashKit.Paragraph(_material.Title.Truncate(50), SplashKit.RectangleFrom(528, 160, 610, 112));
 
 		// Authors
 		SplashKit.SetInterfaceFontSize(20);

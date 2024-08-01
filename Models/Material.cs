@@ -64,5 +64,5 @@ public abstract class Material
 		return json;
 	}
 
-	public abstract Bitmap GetImage();
+	public abstract Task<Bitmap> GetImage();
 }

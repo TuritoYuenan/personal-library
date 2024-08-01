@@ -38,12 +38,13 @@ public class Book : Material
 		return json;
 	}
 
-	public override Bitmap GetImage()
+	public override async Task<Bitmap> GetImage()
 	{
 		if (_image == null)
 		{
+			string url = $"https://covers.openlibrary.org/b/isbn/{Isbn}-L.jpg";
 			Console.WriteLine($"Downloading cover for {Title}");
-			_image = SplashKit.DownloadBitmap(Id, $"https://covers.openlibrary.org/b/isbn/{Isbn}-M.jpg", 443);
+			_image = await Task.Run(() => SplashKit.DownloadBitmap(Id, url, 443));
 		}
 		return _image;
 	}

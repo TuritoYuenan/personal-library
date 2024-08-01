@@ -40,15 +40,19 @@ public class YouTubeVideo : Material, IOnline
 		return json;
 	}
 
-	public override Bitmap GetImage()
+	public override async Task<Bitmap> GetImage()
 	{
-		if (_image != null) { return _image; }
-		_image = SplashKit.DownloadBitmap(Id, Link.Host.Replace("www.", "") switch
+		if (_image == null)
 		{
-			"youtube.com" => $"https://img.youtube.com/vi/{Link.Query.Replace("?watch=", "")}/default.jpg",
-			"youtu.be" => $"https://img.youtube.com/vi/{Link.Segments[1]}/default.jpg",
-			_ => throw new NotSupportedException("Unsupported URL")
-		}, 443);
+			string url = Link.Host.Replace("www.", "") switch
+			{
+				"youtube.com" => $"https://img.youtube.com/vi/{Link.Query.Replace("?watch=", "")}/default.jpg",
+				"youtu.be" => $"https://img.youtube.com/vi/{Link.Segments[1]}/default.jpg",
+				_ => throw new NotSupportedException("Unsupported URL")
+			};
+			Console.WriteLine($"Downloading thumbnail for {Title}");
+			_image = await Task.Run(() => SplashKit.DownloadBitmap(Id, url, 443));
+		}
 		return _image;
 	}
 }

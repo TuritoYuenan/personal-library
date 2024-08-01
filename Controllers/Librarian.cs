@@ -21,28 +21,33 @@ public class Librarian
 	{
 		SplashKit.SetInterfaceFont(SplashKit.GetSystemFont());
 
-		_ui.GoInto(new ShelfPage(_shelf));
+		Navigator.GoInto(new ShelfPage(_shelf));
 
 		while (!_ui.Window.CloseRequested)
 		{
 			SplashKit.SetInterfaceStyle(_settings.Appearance);
 			SplashKit.ProcessEvents();
 
+			// Handle keybinds
 			if (SplashKit.KeyTyped(KeyCode.SKey)) SaveData();
 			if (SplashKit.KeyTyped(KeyCode.LKey)) LoadData();
 			if (SplashKit.KeyTyped(KeyCode.EscapeKey))
 			{
-				if (_ui.IsStartPage) { _ui.Window.Close(); }
-				else { _ui.GoBack(); }
+				if (Navigator.IsStartPage) { _ui.Window.Close(); }
+				else { Navigator.GoBack(); }
+			}
+
+			// Handle messages
+			(string command, object data) = Broker.Poll();
+
+			if (command == "add_item" && data is Material material)
+			{
+				_shelf.Add(material);
+				while (!Navigator.IsStartPage) Navigator.GoBack();
 			}
 
 			_ui.Render();
 		}
-	}
-
-	public static void ErrorDialog(Exception e)
-	{
-		SplashKit.DisplayDialog("Error", e.Message, SplashKit.GetSystemFont(), 10);
 	}
 
 	/// <summary>

@@ -63,8 +63,13 @@ public class Article : Material, IOnline
 		return json;
 	}
 
-	public override Bitmap GetImage()
+	public override async Task<Bitmap> GetImage()
 	{
-		return new("article", "settings.png");
+		if (_image == null)
+		{
+			Console.WriteLine("Custom article cover is not yet supported. Using placeholder image");
+			_image = await Task.Run(() => new Bitmap("article", "settings.png"));
+		}
+		return _image;
 	}
 }

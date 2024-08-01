@@ -1,4 +1,5 @@
-﻿using PersonalLibrary.Models;
+﻿using PersonalLibrary.Controllers;
+using PersonalLibrary.Models;
 using SplashKitSDK;
 
 namespace PersonalLibrary.Views;
@@ -16,7 +17,7 @@ public class AddPage : IPage
 
 	public AddPage()
 	{
-		_buttons = UserInterface.GetInstance().Buttons;
+		_buttons = [];
 		_type = 0;
 		_common = ("", "", "", "");
 		_date = (2000, 1, 1);
@@ -61,19 +62,23 @@ public class AddPage : IPage
 		if (_type == 2)
 		{
 			_common.P = TextField(320, 325, "Website", _common.P);
-			_common.I = TextField(320, 370, "Webpage URL", _common.I);
+			_common.I = TextField(320, 370, "URL", _common.I);
 		}
 
 		if (_type == 3)
 		{
 			_common.P = TextField(320, 325, "Channel", _common.P);
-			_common.I = TextField(320, 370, "Video URL", _common.I);
+			_common.I = TextField(320, 370, "URL", _common.I);
 		}
 
 		_buttons["create"] = SplashKit.Button("Add to Shelf", SplashKit.RectangleFrom(520, 550, 200, 100));
 		if (_buttons["create"])
 		{
-			try { BuildMaterial(); }
+			try
+			{
+				Material material = BuildMaterial();
+				Broker.Publish("add_item", material);
+			}
 			catch (Exception e)
 			{
 				SplashKit.DisplayDialog("Wrong format", e.Message, SplashKit.GetSystemFont(), 20);

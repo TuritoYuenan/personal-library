@@ -13,14 +13,14 @@ internal class Program
 	{
 		Shelf shelf = new();
 		Settings settings = Settings.GetInstance();
-		UserInterface ui = UserInterface.GetInstance();
+		UserInterface ui = new();
 		Librarian librarian = new(shelf, settings, ui);
 
 		try { librarian.Execute(); }
 		catch (Exception e)
 		{
 			Console.Error.WriteLine(e.Message);
-			Librarian.ErrorDialog(e);
+			UserInterface.ErrorDialog(e);
 		}
 	}
 }

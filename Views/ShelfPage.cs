@@ -1,4 +1,5 @@
-﻿using PersonalLibrary.Models;
+﻿using PersonalLibrary.Controllers;
+using PersonalLibrary.Models;
 using SplashKitSDK;
 
 namespace PersonalLibrary.Views;
@@ -85,7 +86,7 @@ public class ShelfPage : IPage
 			SplashKit.PointInRectangle(SplashKit.MousePosition(), coverImgBox)
 		)
 		{
-			UserInterface.GetInstance().GoInto(new MaterialPage(data));
+			Navigator.GoInto(new MaterialPage(data));
 		}
 	}
 }

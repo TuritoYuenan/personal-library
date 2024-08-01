@@ -41,8 +41,12 @@ public class Webpage : Material, IOnline
 		return json;
 	}
 
-	public override Bitmap GetImage()
+	public override async Task<Bitmap> GetImage()
 	{
-		return new("webpage", "settings.png");
+		if (_image == null)
+		{
+			_image = await Task.Run(() => new Bitmap("", ""));
+		}
+		return _image;
 	}
 }
