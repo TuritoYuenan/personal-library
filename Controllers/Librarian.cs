@@ -41,13 +41,13 @@ public class Librarian
 			}
 
 			// Perform tasks from to-do list
-			(string task, object data) = ToDoList.GetTask();
-			if (task == "add_item" && data is Material material)
+			(string task, object attachment) = Agenda.GetTask();
+			if (task == "add_item" && attachment is Material material)
 			{
 				_shelf.Add(material);
 				while (!_ui.Navigator.IsStartPage) _ui.Navigator.GoBack();
 			}
-			if (task == "go_into" && data is IPage page)
+			if (task == "go_into" && attachment is IPage page)
 			{
 				_ui.Navigator.GoInto(page);
 			}

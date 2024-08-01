@@ -4,6 +4,13 @@
 
 > Note: Because of SplashKit's limit, you cannot cut/copy/paste text
 
+- Book:
+	- Authors: Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides
+	- Title: Design Patterns: Elements of Reusable Object-Oriented Software
+	- Date: 1994-10-21
+	- Publisher: Addison-Wesley
+	- Edition: Original
+	- Isbn: 0-201-63361-2
 - Book: https://amazon.com/Cosmos-Possible-Worlds-Ann-Druyan/dp/1426219083
 	- Authors: Ann Druyan
 	- Title: Cosmos: Possible Worlds

@@ -39,7 +39,6 @@ public class YouTubeVideo : Material, IOnline
 		json.AddString("type", "video");
 		json.AddString("channel", Channel);
 		json.AddString("id", VideoId);
-		json.AddString("url", Link.AbsoluteUri);
 		return json;
 	}
 

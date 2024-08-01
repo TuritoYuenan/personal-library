@@ -2,10 +2,13 @@
 
 using PersonalLibrary.Views;
 
+/// <summary>
+/// Represents page navigation within the program
+/// </summary>
 public class Navigator
 {
 	/// <summary>
-	/// Represents page navigation
+	/// Stack data type to hold pages
 	/// </summary>
 	/// <remarks>
 	/// This stack-based approach is similar to how mobile apps work

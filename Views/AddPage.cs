@@ -82,11 +82,11 @@ public class AddPage : IPage
 			try
 			{
 				Material material = BuildMaterial();
-				ToDoList.AddTask("add_item", material);
+				Agenda.AddTask("add_item", material);
 			}
 			catch (Exception e)
 			{
-				SplashKit.DisplayDialog("Wrong format", e.Message, SplashKit.GetSystemFont(), 20);
+				UserInterface.ErrorDialog(e);
 			}
 		}
 	}

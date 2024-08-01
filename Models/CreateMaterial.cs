@@ -5,6 +5,17 @@ namespace PersonalLibrary.Models;
 public static class CreateMaterial
 {
 	/// <summary>
+	/// Design Patterns book used for testing
+	/// </summary>
+	public static Material TestMaterial => new Book()
+		.AddIsbn("0-201-63361-2")
+		.AddEdition("Original")
+		.AddPublication("Addison-Wesley")
+		.AddDate(1994, 10, 21)
+		.AddTitle("Design Patterns: Elements of Reusable Object-Oriented Software")
+		.AddAuthors("Erich Gamma", "Richard Helm", "Ralph Johnson", "John Vlissides");
+
+	/// <summary>
 	/// Create a material from json
 	/// </summary>
 	/// <param name="json">SplashKit JSON object</param>
@@ -21,16 +32,5 @@ public static class CreateMaterial
 			"video" => new YouTubeVideo(json),
 			_ => throw new InvalidDataException("Unknown type: " + type)
 		};
-	}
-
-	public static Material TestMaterial()
-	{
-		return new Book()
-			.AddIsbn("0-201-63361-2")
-			.AddEdition("Original")
-			.AddPublication("Addison-Wesley")
-			.AddDate(1994, 10, 21)
-			.AddTitle("Design Patterns: Elements of Reusable Object-Oriented Software")
-			.AddAuthors("Erich Gamma", "Richard Helm", "Ralph Johnson", "John Vlissides");
 	}
 }

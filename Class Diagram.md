@@ -21,11 +21,14 @@ Webpage ..|> IOnline: implements
 YouTubeVideo ..|> IOnline: implements
 
 UserInterface *-- Navigator
-IPage <|.. MaterialPage: implements
-IPage <|.. AddPage: implements
 Navigator "1" o-- "1..n" IPage
+IPage <|.. MaterialPage: implements
 IPage <|.. ShelfPage: implements
 IPage <|.. SettingsPage: implements
+IPage <|.. AddPage: implements
+
+MaterialPage <.. Extension
+ShelfPage <.. Extension
 
 class Program {
 	<<Entry Point>>
@@ -41,25 +44,25 @@ class IOnline {
 	+ OpenLink()
 }
 class CreateMaterial {
-	<<Factory>>
+	<<Factory, Static>>
 	+ FromJson(Json)$ Material
 	+ TestMaterial()$ Material
 }
 class MaterialBuilder {
 	<<Builder>>
-	+ AddAuthors(this Material, string[]) Material
-	+ AddTitle(this Material, string) Material
-	+ AddDate(this Material, int, int, int) Material
-	+ AddPublication(this Material, string) Material
-	+ AddEdition(this Book, string) Book
-	+ AddIsbn(this Book, string) Book
-	+ AddNumbers(this Article, string[]) Article
-	+ AddDoi(this Article, string[]) Article
-	+ AddLink(this Webpage, string[]) Webpage
-	+ AddLink(this YouTubeVideo, string[]) YouTubeVideo
-	- IsbnPattern() Regex
-	- DoiPattern() Regex
-	- UrlPattern() Regex
+	+ AddAuthors(this Material, string[])$ Material
+	+ AddTitle(this Material, string)$ Material
+	+ AddDate(this Material, int, int, int)$ Material
+	+ AddPublication(this Material, string)$ Material
+	+ AddEdition(this Book, string)$ Book
+	+ AddIsbn(this Book, string)$ Book
+	+ AddNumbers(this Article, int, int, int, int)$ Article
+	+ AddDoi(this Article, string)$ Article
+	+ AddLink(this Webpage, string)$ Webpage
+	+ AddVideoId(this YouTubeVideo, string)$ YouTubeVideo
+	- IsbnPattern()$ Regex
+	- DoiPattern()$ Regex
+	- UrlPattern()$ Regex
 }
 class Settings {
 	<<Singleton>>
@@ -74,7 +77,6 @@ class Settings {
 }
 class Shelf {
 	+ Contents: ListMaterial ~~RO property~~
-	+ this[int key]: Material ~~indexer~~
 	+ Shelf()
 	+ Add(Material)
 	+ Remove(Material) bool
@@ -138,12 +140,12 @@ class YouTubeVideo {
 %% Views
 
 class UserInterface {
-	- _buttons: Dictionary ~~RO property~~
+	- _buttons: Dictionary~string, bool~
 	+ Window: Window ~~RO property~~
 	+ Navigator: Navigator ~~RO property~~
 	- UserInterface()
-	+ GetInstance() UserInterface$
 	+ Render()
+	+ ErrorDialog(Exception)$
 	- IconButton(int, int, string)$ bool
 }
 class IPage {
@@ -189,28 +191,30 @@ class ShelfPage {
 	- ShelfRack(int, int)
 	- MaterialCard(int, int, Material)
 }
+class Extension {
+	<<Static>>
+	+ Truncate(this string, int)
+}
 
 %% Controllers
 
 class Librarian {
-	<<Controller>>
 	- _shelf: Shelf
 	- _settings: Settings
 	- _navigator: Navigator
 	- _ui: UserInterface
 }
 class Navigator {
-	<<Controller>>
 	- _pages: Stack~IPage~
 	+ CurrentPage: IPage
 	+ IsStartPage: bool
 	+ GoInto(IPage)
 	+ GoBack() IPage
 }
-class ToDoList {
-	<<Controller>>
-	- _tasks: Queue~KeyValuePair~string, object~~
+class Agenda {
+	<<Static>>
+	- _tasks: Queue~ValueTuple~string, object~~
 	+ AddTask(string, object)
-	+ GetTask() string, object
+	+ GetTask() ValueTuple~string, object~
 }
 ```

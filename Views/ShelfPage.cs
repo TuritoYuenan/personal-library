@@ -86,7 +86,7 @@ public class ShelfPage : IPage
 			SplashKit.PointInRectangle(SplashKit.MousePosition(), coverImgBox)
 		)
 		{
-			ToDoList.AddTask("go_into", new MaterialPage(data));
+			Agenda.AddTask("go_into", new MaterialPage(data));
 		}
 	}
 }
