@@ -23,6 +23,7 @@ public class Librarian
 	public void Execute()
 	{
 		SplashKit.SetInterfaceFont(SplashKit.GetSystemFont());
+		SplashKit.SetInterfaceBorderColor(Color.Transparent);
 
 		_ui.Navigator.GoInto(new ShelfPage(_shelf));
 

@@ -20,7 +20,7 @@ public class SettingsPage : IPage
 	public void Render()
 	{
 		SplashKit.SetInterfaceLabelWidth(200);
-		SplashKit.StartInset("s1", SplashKit.RectangleFrom(0, 100, 700, 600));
+		SplashKit.StartInset("s1", SplashKit.RectangleFrom(0, 100, 690, 600));
 
 		Heading("Appearance");
 		SplashKit.SetInterfaceFontSize(20);
