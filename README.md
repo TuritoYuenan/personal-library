@@ -1,6 +1,20 @@
-# Personal Library Program
+# School Assignment: Personal Library Program
+
+> - **Assignment**: 6.5HD & 6.6HD - HD Level Custom Program Task
+> - **Unit**: Object Oriented Programming (COS20007)
+> - **Student**: Nguyen Ta Minh Triet
+> - **Date**: 08 July 2024 - 02 August 2024
+> - **School**: Swinburne University of Technology (HCMC Campus, Vietnam)
 
 This is a program that you can use to manage your materials i.e. books, articles (journal/magazine), webpages, and YouTube™ videos.
+
+## Features
+
+- Add items (books, articles, webpages, YouTube™ videos) to the store in the shelf
+- Save and load items and settings via JSON file
+- GUI supported by SplashKit
+- Customise GUI appearance and location to save JSON file via program settings
+- View details of saved items, with cover image (book) and thumbnail (YouTube™ video) automatically received from public APIs
 
 ## How to use
 
@@ -23,7 +37,7 @@ There are two ways to download this program into your computer:
 6. Go back to the previous page by pressing Esc
 7. Quit the program by pressing Ctrl + Q (unsaved items will be lost)
 
-## Example materials
+## Example materials to test Add functionality
 
 > Note: Because of SplashKit's current limitation, you cannot cut/copy/paste text
 
